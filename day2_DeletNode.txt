@@ -1,0 +1,30 @@
+//APPROACH 1
+class Solution {
+    public void deleteNode(ListNode node) {
+        
+        ListNode curr = node;
+        
+        while(curr!=null){
+            //swap
+            int temp = curr.val;
+            curr.val = curr.next.val;
+            curr.next.val = temp;
+            
+            if(curr.next.next==null){
+                //new tail
+                curr.next = null; //node deleted
+            }
+            
+            curr = curr.next;
+            
+        }
+    }
+}
+
+//APPROACH 2 -> O(1)
+class Solution {
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+}
