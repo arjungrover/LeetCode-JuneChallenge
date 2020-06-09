@@ -1,0 +1,24 @@
+
+//APPROACH 1 [TLE]
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+	while(n!=1){
+	       if(n%2!=0)
+	           return false;
+            
+       		n/=2;
+	         }
+        
+	    return true;
+        
+            }
+}
+
+//APPROACH 2 [BIT MANIPULATION]
+
+//Every number which can be describes as power of 2 will be in form 1000....
+//(n-1) will be having bits less than n by 1
+//n-1 => 0********
+
+
+return n>0 && ((n&n-1)==0);
