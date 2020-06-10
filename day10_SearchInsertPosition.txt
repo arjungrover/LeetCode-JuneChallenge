@@ -1,0 +1,42 @@
+
+/*
+
+We will be using binary search algorithm .
+we will be saving idx while moving right side as that idx value is definately smaller //Than target value, hence making it a potential candidate
+
+
+*/
+
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+     
+ //Approach1 using inbuilt binary search   
+//         int res = Arrays.binarySearch(nums, target);
+//         if(res<0)
+//             return (res*-1)-1;
+        
+//         return res;
+        
+        
+        int idx = -1;
+        int left = 0;
+        int right = nums.length-1;
+        
+        while(left<=right){
+            int mid = (left+right)/2;
+            
+            if(nums[mid]==target)
+                return mid;
+            
+            if(nums[mid]>target){
+                //left side move
+                right = mid-1;
+            }else{
+                //right side move
+                idx = mid;
+                left = mid+1;
+            }
+        }
+        return idx+1;
+    }
+}
