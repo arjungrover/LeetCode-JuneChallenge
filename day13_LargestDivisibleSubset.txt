@@ -1,0 +1,61 @@
+/*
+
+Basically we are checking no. should be put in front of which(All smaller) so that it forms biggest subset.
+
+ eg: 2,4 3,1, 6 , 18. -> this test case will fail if we will not sort the array
+ 
+1 will have all the multiples and it can be even factor of everyone else. so smallest number should come in the starting.
+
+we are keeping account of prev indexes .(kinda of Linkedlist)
+
+eg: [4,8,10,240] . 240 is divisible by 10 as well as 4 & 8. But it is important to check all possible combinations as [4,8,240] is bigger subset than [10,240] 
+
+Time Complexity : O(n2)
+Auxiliary Space : O(n)
+
+*/
+
+class Solution {
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        
+       List<Integer> res = new ArrayList<>();
+        
+       int[] dp = new int[nums.length];
+       int[] prev = new int[nums.length];
+        
+       Arrays.sort(nums);
+        
+        int max_size = -1;
+        int idx = -1;
+        
+        
+        
+       for(int i=0;i<nums.length; i++){
+           dp[i] = 1;
+           prev[i] = -1;
+           for(int j=i-1;j>=0;j--){
+               if(nums[i]%nums[j]==0 && dp[i]<dp[j]+1){
+                   dp[i] = dp[j]+1;
+                   prev[i] = j;
+                   
+                   // break;    NO NEED. IT IS IMPORTANT TO CHECK ALL POSSIBLE COMBINATIONS
+               }
+           }
+           // System.out.println(dp[i]+"."+prev[i]+".."+i);
+           if(max_size<dp[i]){
+               max_size = dp[i];
+               idx = i;
+           }
+       }
+    
+    
+       while(idx!=-1){
+           res.add(0,nums[idx]);
+           idx = prev[idx];
+       }
+        
+      
+        
+     return res;
+    }
+}
