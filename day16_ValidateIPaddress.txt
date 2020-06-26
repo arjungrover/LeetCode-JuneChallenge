@@ -1,0 +1,83 @@
+// Time complexity -> O(n) Space Complexity -> O(1)
+class Solution {
+    
+    public String validateIPv4(String IP){
+        /*
+        limit < 0 : In this case, the pattern will be applied as
+            many times as possible, and the resulting 
+            array can be of any size.
+        limit = 0 : In this case, the pattern will be applied as 
+            many times as possible, the resulting array can 
+            be of any size, and trailing empty strings will
+            be discarded.
+        
+        */
+        
+        String[] nums = IP.split("\\.", -1);  
+        
+        for(String str:nums){
+            //validate integer range [0,255]
+            
+            //length of chunks is between 1 and 3  112.231.16.1 is valid
+            if( str.length()==0 || str.length()>3)
+                return "Neither";
+            
+            //No leading zeroes
+            if(str.charAt(0)=='0' && str.length()!=1 )
+                return "Neither";
+            
+            //only digits are allowed
+            for(char ch: str.toCharArray()){
+                if(!Character.isDigit(ch))
+                    return "Neither";
+            }
+            
+            //less than 255
+            if(Integer.parseInt(str)>255)
+                return "Neither";
+        }
+        
+        return "IPv4";
+        
+    }
+    public String validateIPv6(String IP){
+        String[] nums = IP.split(":", -1);
+        String hexdigits = "0123456789abcdefABCDEF";
+        
+        for(String str: nums){
+            //at least one and not more than 4 hexdigits in one chunk
+            if(str.length()==0 || str.length()>4)
+                return "Neither";
+            
+            //only hex digits are allowed 0-9 a-f A-f
+            //indexof will give us first index of character
+            for(char ch: str.toCharArray()){
+                if(hexdigits.indexOf(ch) == -1)
+                    return "Neither";
+            }
+            
+            
+        }
+        
+        return "IPv6";
+    }
+    
+    
+    public String validIPAddress(String IP) {
+        /*
+        .chars() -> will convert string into Streams of characters
+        .filter(predicate) -> returns a stream consisting of the elements of this stream that match the          given predicate.
+        .count() ->Stream count/returns count of elements in the stream.
+        
+        */
+        
+        if(IP.chars().filter(ch -> ch=='.').count() == 3)
+            return validateIPv4(IP);
+        
+        else if(IP.chars().filter(ch->ch==':').count() == 7 )
+            return validateIPv6(IP);
+        
+        else
+            return "Neither";
+    }
+}
