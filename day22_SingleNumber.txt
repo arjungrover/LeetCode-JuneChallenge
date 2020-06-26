@@ -1,0 +1,40 @@
+
+/*
+Method 1 : using sorting :nlogn time complexity
+Method 2 : using HashMap : we cant check using hashset as 2, 2,3,3,3 : first occurence will not be there in hashset ; Hashing n time and n space complexity.
+
+Method 3: using bit manipulation : its a beautiful solution
+we will be calculating sum of all bits . 1, 1 , 1,2 -> 001+001+001+010 -> 010  it will be my ans
+if bit comes multiple of 3, then its not considered.
+
+1,2,2,3,3,3,2 -> 001+010+010+011+011+011+010 -> 064 ->001
+
+
+n time and constant space complexity.
+
+*/
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        int res = 0;
+        
+        int mask, sum;
+        
+        for(int i=0;i<32;i++){
+            mask = (1<<i); //set ith bit  //1 ke aage i no. zeroes add [left shift operator]
+            sum = 0; //it will be used to calculate number of set bit for ith position
+            
+            for(int j=0;j<nums.length;j++){
+                
+                if( (mask & nums[j])!=0 ) sum++;  //we are checking if ith bit is on/off
+                
+            }
+            
+            if(sum%3!=0) res|=mask;
+            
+        }
+        
+        return res;
+        
+    }
+}
