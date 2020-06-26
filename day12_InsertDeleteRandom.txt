@@ -1,0 +1,87 @@
+/*
+
+We want to do insert, remove and getRandom in O(1);
+
+We can use hash map as it supports addition and deletion in O(1);
+
+But for getting Random , we want to retrieve value with index which is not possible with Hashmap as it doesn't support indexes.
+
+In ArrayList : get and add is O(1) and remove from index-> O(n) but remove last is O(1)
+
+We will be using this ArrayList. 
+For removing index element , we will be swapping that index element with last element and will remove last element.
+
+HashMap is used to keep track of indexes with values.
+
+*/
+
+class RandomizedSet {
+
+    ArrayList<Integer> list;         //remove-> O(n); get and add -> O(1)
+    HashMap<Integer, Integer> hmap;  //value vs index     add, get, contains -> O(1)
+    Random rand;
+    
+    /** Initialize your data structure here. */
+    public RandomizedSet() {
+       
+        list = new ArrayList<>();
+        hmap = new HashMap<>();
+        rand = new Random();
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert(int val) {
+        
+        if(hmap.containsKey(val))
+            return false;
+        
+        list.add(val);
+        hmap.put(val, list.size()-1);
+        
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove(int val) {
+        if(!hmap.containsKey(val))
+            return false;
+        
+        int idx = hmap.get(val);
+        //since remove from specific index is O(n) && removing Last element is O(1)
+        //we will swap them both
+       
+        list.set(idx,list.get(list.size()-1));  //replace idx with val
+        
+        hmap.put(list.get(list.size()-1), idx);  //update -> last element position changed
+        
+        
+        list.remove(list.size()-1);   //last element -> O(1)
+       
+        hmap.remove(val); //hmap remove val
+       
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    public int getRandom() {
+        /*
+        This method returns a pseudorandom, uniformly distributed int value between 0 (inclusive) and    
+        the specified value (exclusive), drawn from this random number generator's sequence.
+        */
+        
+
+//         return list.get(rand.nextInt(list.size()));
+        
+        int idx = (int)Math.floor(Math.random()*list.size());
+        
+        return list.get(idx);
+    }
+}
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet obj = new RandomizedSet();
+ * boolean param_1 = obj.insert(val);
+ * boolean param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
